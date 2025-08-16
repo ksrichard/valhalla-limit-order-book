@@ -26,13 +26,17 @@ To start the app, simply run
 
 Possible Improvements
 ---
-During the development I realized that the order book could be implemented a different way, but to stick to the
+During the development I realized that the order book could be implemented a different way too, but to stick to the
 time constraint I just finished with my initial idea, but let me explain here, what could be changed.
 
 So instead of `Vec`s I would use `BTreeMap` to store buy and sell orders.
+
 In `BTreeMap` I would use `u64` as the key, so the `price (level)` and `VecDeque<Order>` as value.
 `VecDeque<Order>` is useful because we can iterate both from the beginning and the end, so in order to get the best price,
-I simply need to call `orders.iter().next()` or `orders.iter().next_back()`. 
+I simply need to call `orders.iter().next()` or `orders.iter().next_back()` on the right deque.
+Also using `VecDeque<Order>` makes sure the ordering of orders is fine, so using `push_back` would put the new orders to back
+and `pop_front` to get the oldest order for matching.
+
 These changes would bring a bit more complexity to the code, but would accelerate the execution and would avoid the need to 
 reorder all the time as in `Vec`.
 
